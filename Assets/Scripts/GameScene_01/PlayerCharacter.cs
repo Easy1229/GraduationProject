@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace GameScene_01
@@ -33,6 +34,7 @@ namespace GameScene_01
       public GameObject mask;
       public LayerMask ground;
 
+      public UnityEvent JumpAudio;
       private void Awake()
       {
          if (Instance != null)
@@ -89,6 +91,7 @@ namespace GameScene_01
          {
             _isJump = true;
             _jumpCount++;
+            JumpAudio?.Invoke();
          }
       }
       //检测玩家是否可以移动
