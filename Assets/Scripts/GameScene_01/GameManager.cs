@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,6 +6,16 @@ namespace GameScene_01
 {
     public class GameManager : MonoBehaviour
     {
+        public static GameManager Instance;
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+        }
+
         //游戏暂停
         public void GamePause()
         {
@@ -20,6 +31,11 @@ namespace GameScene_01
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             Time.timeScale = 1;
+        }
+        //玩家死亡>>>>复活
+        public void PlayerRelive()
+        {
+            
         }
         //退出游戏
         public void QuitGame()

@@ -6,7 +6,9 @@ namespace GameScene_01
     public class PlayerScoreManager : MonoBehaviour
     {
         public static PlayerScoreManager Instance;
+        
         public Image hpImage;
+        
         [HideInInspector] public int maxHp;
         [HideInInspector] public int currentHp;
         [HideInInspector] public bool die;
@@ -33,6 +35,7 @@ namespace GameScene_01
             {
                 currentHp -= 100;
                 die = true;
+                GameManager.Instance.GameReStart();
             }
         }
 
@@ -42,6 +45,7 @@ namespace GameScene_01
             {
                 currentHp -= 100;
                 die = true;
+                GameManager.Instance.GameReStart();
             }
         }
     }

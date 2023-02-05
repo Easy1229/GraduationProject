@@ -16,7 +16,6 @@ namespace GameScene_01
       //设置移动、跳跃速度
       [SerializeField, Range(5, 10)] 
       private float playerSpeed = 5f;
-      
       [SerializeField, Range(5, 10)]
       private float playerJumpForce = 5.5f;
 
@@ -36,7 +35,10 @@ namespace GameScene_01
 
       private void Awake()
       {
-         Instance = this;
+         if (Instance != null)
+         {
+            Instance = this;
+         }
          //方便测试，加载游戏时将人物移到起点
          transform.position = new Vector3(-10.275f, -4.37f, 0);
          _rigidbody2D = GetComponent<Rigidbody2D>();
