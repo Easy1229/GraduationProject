@@ -31,9 +31,15 @@ namespace GameScene_01
         //游戏相关UI
         public GameObject uiOfGame;
         private int index = 0;
+        //玩家死亡UI
+        public GameObject playerDie;
         private void Awake()
         {
-            Instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            playerDie.gameObject.SetActive(false);
         }
 
         private void Start()
@@ -107,6 +113,11 @@ namespace GameScene_01
         public void GetWeapon()
         {
             achievementPanel.SetActive(true);
+        }
+        //玩家死亡
+        public void PlayerDefeat()
+        {
+            playerDie.gameObject.SetActive(true);
         }
     }
 }

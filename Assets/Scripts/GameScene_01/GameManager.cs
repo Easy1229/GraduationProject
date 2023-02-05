@@ -33,9 +33,9 @@ namespace GameScene_01
             Time.timeScale = 1;
         }
         //玩家死亡>>>>复活
-        public void PlayerRelive()
+        public void PlayerDefeat()
         {
-            
+            UIManager.Instance.PlayerDefeat();
         }
         //退出游戏
         public void QuitGame()

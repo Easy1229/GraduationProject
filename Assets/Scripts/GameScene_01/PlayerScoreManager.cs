@@ -35,7 +35,7 @@ namespace GameScene_01
             {
                 currentHp -= 100;
                 die = true;
-                GameManager.Instance.GameReStart();
+                GameManager.Instance.PlayerDefeat();
             }
         }
 
@@ -45,7 +45,7 @@ namespace GameScene_01
             {
                 currentHp -= 100;
                 die = true;
-                GameManager.Instance.GameReStart();
+                GameManager.Instance.PlayerDefeat();
             }
         }
     }
