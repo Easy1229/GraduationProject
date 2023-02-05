@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace GameScene_01
@@ -7,7 +8,7 @@ namespace GameScene_01
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance;
-
+        public UnityEvent DiedAudio;
         private void Awake()
         {
             if (Instance == null)
@@ -36,6 +37,7 @@ namespace GameScene_01
         public void PlayerDefeat()
         {
             UIManager.Instance.PlayerDefeat();
+            DiedAudio?.Invoke();
         }
         //退出游戏
         public void QuitGame()

@@ -33,6 +33,9 @@ namespace GameScene_01
         private int index = 0;
         //玩家死亡UI
         public GameObject playerDie;
+        //音量调节
+        public Slider GameAudioSlider;
+        public AudioSource bgmDefault;
         private void Awake()
         {
             if (Instance == null)
@@ -53,6 +56,12 @@ namespace GameScene_01
             {
                 TalkWithNpc01();
             }
+            GameAudioControl();
+        }
+        //游戏音量调节
+        private void GameAudioControl()
+        {
+            bgmDefault.volume = GameAudioSlider.value;
         }
         //幕布控制
         private void MaskControl()

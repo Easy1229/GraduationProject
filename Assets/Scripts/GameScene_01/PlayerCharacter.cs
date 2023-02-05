@@ -60,7 +60,6 @@ namespace GameScene_01
          PlayerMove();
          _isJump = false;
       }
-
       //人物移动
       private void PlayerMove()
       {
