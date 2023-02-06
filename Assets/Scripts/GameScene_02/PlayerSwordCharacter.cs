@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace GameScene_02
 {
@@ -26,7 +28,48 @@ namespace GameScene_02
         public Transform checkGround;
         public LayerMask ground;
         public Image playerHpBg;
-        
+
+        public UnityEvent PlayerJumpAudio;
+
+        public UnityEvent PlayerAttackAudio;
+        //输入系统更改
+        //输入系统
+        private GameInputAction _gameInputAction;
+
+        private void OnEnable()
+        {
+            _gameInputAction.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _gameInputAction.Disable();
+        }
+        private void Awake()
+        {
+            _gameInputAction = new GameInputAction();
+            _gameInputAction.Game.Jump.performed += Jump;
+            _gameInputAction.Game.Attack.performed += Attack;
+        }
+
+        private void Attack(InputAction.CallbackContext obj)
+        {
+            PlayerAttackAudio?.Invoke();
+            _animator.SetTrigger("Attack");
+        }
+
+        private void Jump(InputAction.CallbackContext obj)
+        {
+            if (_jumpCount < 1)
+            {
+                PlayerJumpAudio?.Invoke();
+                _isJump = true;
+                _jumpCount++;
+                //JumpAudio?.Invoke();
+                _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, playerJumpForce);
+            }
+        }
+
         void Start()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -60,21 +103,20 @@ namespace GameScene_02
         {
             if (die==false)
             {
-                var h = Input.GetAxisRaw("Horizontal");
-                float faceDir = Input.GetAxisRaw("Horizontal");
+                Vector2 move = _gameInputAction.Game.Move.ReadValue<Vector2>();
+                float faceDir= move.x;
+                float h = move.x;
 
-                if (faceDir != 0)
+                if (faceDir >= 0)
                 {
-                    transform.localScale = new Vector3(faceDir, 1, 1);
+                    transform.localScale = new Vector3(1, 1, 1);
                 }
-
+                else
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
                 float vy = _rigidbody2D.velocity.y;
-
-                if (_isJump)
-                {
-                    vy = playerJumpForce;
-                }
-
+                
                 _rigidbody2D.velocity = new Vector2(h * playerSpeed, vy);
             }
         }
@@ -88,10 +130,6 @@ namespace GameScene_02
             if (die)
             {
                 _animator.SetTrigger("IsDie");
-            }
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                _animator.SetTrigger("Attack");
             }
         }
         
@@ -135,6 +173,7 @@ namespace GameScene_02
             {
                 _currentHp -= 100;
                 die = true;
+                UIManager.Instance.PlayerDie();
             }
         }
     }

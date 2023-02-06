@@ -1,11 +1,15 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace GameScene_01
 {
    public class PlayerCharacter : MonoBehaviour
    {
+      //输入系统
+      private GameInputAction _gameInputAction;
       //单例模式
       public static PlayerCharacter Instance;
 
@@ -35,8 +39,22 @@ namespace GameScene_01
       public LayerMask ground;
 
       public UnityEvent JumpAudio;
+
+      private void OnEnable()
+      {
+         _gameInputAction.Enable();
+      }
+
+      private void OnDisable()
+      {
+         _gameInputAction.Disable();
+      }
+
       private void Awake()
       {
+         _gameInputAction = new GameInputAction();
+         _gameInputAction.Game.Jump.performed += Jump;
+         _gameInputAction.Game.Attack.performed += Attack;
          if (Instance != null)
          {
             Instance = this;
@@ -47,11 +65,26 @@ namespace GameScene_01
          _animator = GetComponent<Animator>();
       }
 
+      private void Attack(InputAction.CallbackContext obj)
+      {
+         _animator.SetTrigger("Attack");
+      }
+
+      private void Jump(InputAction.CallbackContext obj)
+      {
+         if (_jumpCount < 1)
+         {
+            _isJump = true;
+            _jumpCount++;
+            JumpAudio?.Invoke();
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, playerJumpForce);
+         }
+      }
+
       private void Update()
       {
          SetAni();
          CheckGround();
-         CanJump();
          CanMove();
       }
 
@@ -65,32 +98,21 @@ namespace GameScene_01
       {
          if (_canMove)
          {
-            var h = Input.GetAxisRaw("Horizontal");
-            float faceDir = Input.GetAxisRaw("Horizontal");
-
-            if (faceDir != 0)
+            Vector2 move = _gameInputAction.Game.Move.ReadValue<Vector2>();
+            float faceDir= move.x;
+            float h = move.x;
+            if (faceDir >= 0)
             {
-               transform.localScale = new Vector3(faceDir, 1, 1);
+               transform.localScale = new Vector3(1, 1, 1);
+            }
+            else
+            {
+               transform.localScale = new Vector3(-1, 1, 1);
             }
 
             float vy = _rigidbody2D.velocity.y;
-
-            if (_isJump)
-            {
-               vy = playerJumpForce;
-            }
-
+            
             _rigidbody2D.velocity = new Vector2(h * playerSpeed, vy);
-         }
-      }
-      //检测玩家是否可以跳跃
-      private void CanJump()
-      {
-         if (Input.GetButtonDown("Jump") && _jumpCount < 1)
-         {
-            _isJump = true;
-            _jumpCount++;
-            JumpAudio?.Invoke();
          }
       }
       //检测玩家是否可以移动
@@ -120,10 +142,6 @@ namespace GameScene_01
          if (_haveSword)
          {
             _animator.SetTrigger("HaveSword");
-         }
-         if (Input.GetKeyDown(KeyCode.J))
-         {
-            _animator.SetTrigger("Attack");
          }
       }
 

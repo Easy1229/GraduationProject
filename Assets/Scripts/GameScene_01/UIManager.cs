@@ -29,7 +29,7 @@ namespace GameScene_01
         //成就面板
         public GameObject achievementPanel;
         //游戏相关UI
-        public GameObject uiOfGame;
+        public GameObject UIOfGame;
         private int index = 0;
         //玩家死亡UI
         public GameObject playerDie;
@@ -43,6 +43,8 @@ namespace GameScene_01
                 Instance = this;
             }
             playerDie.gameObject.SetActive(false);
+            
+            UIOfGame.SetActive(false);
         }
 
         private void Start()
@@ -74,6 +76,7 @@ namespace GameScene_01
             sequence.AppendCallback(() =>
             {
                 maskImage.SetActive(false);
+                UIOfGame.SetActive(true);
             });
         }
         //对话面板显示
@@ -88,7 +91,6 @@ namespace GameScene_01
             if (index == talkWordsList.Count)
             {
                 talkPanel.transform.DOLocalMove(new Vector3(0, 780, 0), 1.5f);
-                uiOfGame.SetActive(true);
                 talkWords.text = null;
                 return;
             }
