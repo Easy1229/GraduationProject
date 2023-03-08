@@ -60,7 +60,7 @@ namespace GameScene_01
             Instance = this;
          }
          //方便测试，加载游戏时将人物移到起点
-         transform.position = new Vector3(-10.275f, -4.37f, 0);
+         //transform.position = new Vector3(-10.275f, -4.37f, 0);
          _rigidbody2D = GetComponent<Rigidbody2D>();
          _animator = GetComponent<Animator>();
       }

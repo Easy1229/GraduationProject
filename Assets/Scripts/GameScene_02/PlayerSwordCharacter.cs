@@ -9,8 +9,6 @@ namespace GameScene_02
 {
     public class PlayerSwordCharacter : MonoBehaviour
     {
-        //测试传送
-        public Transform door;
         private Rigidbody2D _rigidbody2D;
         private Animator _animator;
         private int _jumpCount;
@@ -177,11 +175,7 @@ namespace GameScene_02
                 die = true;
                 UIManager.Instance.PlayerDie();
             }
-
-            if (col.CompareTag("Door"))
-            {
-                transform.position = door.position;
-            }
         }
+        
     }
 }
