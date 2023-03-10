@@ -12,6 +12,7 @@ namespace GameScene_02
         {
             if (col.CompareTag("Player"))
             {
+                AudioSwitch.Instance.SwitchMusic();
                 player.position = transmitDoor.position;
             }
         }

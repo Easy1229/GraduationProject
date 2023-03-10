@@ -52,5 +52,14 @@ namespace GameScene_02
 
          _animator.SetTrigger("IsDie");
       }
+      private void OnCollisionEnter2D(Collision2D col)
+      {
+         PlayerSwordCharacter playerSwordCharacter = col.gameObject.GetComponent<PlayerSwordCharacter>();
+         if (col.gameObject.CompareTag("Player"))
+         {
+            playerSwordCharacter._currentHp -= 5;
+            playerSwordCharacter.GetHit();
+         }
+      }
    }
 }

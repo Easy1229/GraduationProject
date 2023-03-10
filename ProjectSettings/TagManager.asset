@@ -16,6 +16,8 @@ TagManager:
   - NPC02
   - Weapon
   - Door
+  - Enemy_Skeleton
+  - Enemy_Rider
   layers:
   - Default
   - TransparentFX

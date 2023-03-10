@@ -17,6 +17,8 @@ namespace GameScene_02
         {
             AISpider aiSpider = col.GetComponent<AISpider>();
             AIBat aiBat = col.GetComponent<AIBat>();
+            Skeleton skeleton = col.GetComponent<Skeleton>();
+            Rider rider = col.GetComponent<Rider>();
             if (col.CompareTag("Enemy_Spider"))
             {
                 _coinNumbers += 2;
@@ -25,6 +27,14 @@ namespace GameScene_02
             {
                 _coinNumbers += 2;
                 aiBat.IsDie();
+            }else if (col.CompareTag("Enemy_Skeleton"))
+            {
+                _coinNumbers += 2;
+                skeleton.IsDie();
+            }else if (col.CompareTag("Enemy_Rider"))
+            {
+                _coinNumbers += 2;
+                rider.IsDie();
             }
         }
     }

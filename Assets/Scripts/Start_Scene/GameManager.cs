@@ -44,7 +44,7 @@ namespace Start_Scene
         {
             DOTween.PauseAll();
             yield return new WaitForSeconds(0.5f);
-            var operation = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+            var operation = SceneManager.LoadSceneAsync(2);
             operation.allowSceneActivation = false;
             
             //异步加载场景
@@ -55,7 +55,7 @@ namespace Start_Scene
                 {
                     slider.value = 1;
                     textMeshProUGUI.gameObject.SetActive(true);
-                    textMeshProUGUI.text = "Press any key to enter the game";
+                    textMeshProUGUI.text = "按任意按键进入游戏";
 
                     if (Input.anyKey)
                     {
